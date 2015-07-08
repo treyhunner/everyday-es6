@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Sample Presentation</title>
+    <title>Everyday ECMAScript 6</title>
 
     <meta name="description" content="">
     <meta name="author" content="Trey Hunner">
@@ -42,7 +42,7 @@
       <div class="slides">
 
         <section data-background="#ffffff" data-background-transition="zoom" data-transition="zoom" data-transition-speed="fast">
-          <h1>Sample Presentation</h1>
+          <h1>Everyday ECMAScript 6</h1>
           <p>
             <small><a href="http://treyhunner.com">Trey Hunner</a> / <a href="https://twitter.com/treyhunner">@treyhunner</a></small>
           </p>
@@ -52,33 +52,308 @@
         </section>
 
         <section data-transition="fade-in slide-out">
-          <h2>Lorem ipsum dolor</h2>
+          <h2>ECMAScript 2015 (ES2015)</h2>
           <p>
-          <pre class="python"><code data-trim>
-let codeSample = `something`;
-          </code></pre>
+            <ul>
+              <li>Also known as ECMAScript 6 (ES6)</li>
+              <li><a href="http://www.ecma-international.org/ecma-262/6.0/">Specification</a> finalized June 2015</li>
+              <li class="fragment" data-fragment-index="1">Fully-supported in 0 browsers</li>
+            </ul>
           </p>
           <aside class="notes" data-markdown>
-            Say something here.
+            ECMAScript is the official name of the JavaScript language specification.  ECMAScript 5 was finalized 5 years ago.  As of this year, ES6 is now officially called ECMAScript 2015.
+
+            The hope is that ECMAScript 7 will be finalized in 2016.
+
+            This new language specification was just finalized last month but it is already fully supported in all major browsers.
+
+            Oh wait, no.  I mean it's not supported in **any** browsers.  It's going to be a long time before you can confidently use this new language in the browser.  However you **can** start using this new language today...
+          </aside>
+        </section>
+
+        <section data-background="#f5da55" data-background-transition="fade" data-transition="zoom-in zoom-out">
+          <a href="http://babeljs.io/"><img src="babel-logo.svg" class="no-style"></a>
+          <h3>Use next generation JavaScript, today.</h3>
+          <aside class="notes" data-markdown>
+            You just need to compile your new ECMAScript 6 code down to ECMAScript 5.  That way your code will run in all web browsers.  With Babel you can do just that.
+          </aside>
+        </section>
+
+        <section data-transition="fade-in slide-out">
+          <h2>ES2015 features to use today</h2>
+          <p>
+            <ol>
+              <li>template strings</li>
+              <li>object methods</li>
+              <li>fat arrow functions</li>
+              <li>let declarations</li>
+              <li>for..of</li>
+              <li>destructuring</li>
+          </ol>
+          </p>
+          <aside class="notes" data-markdown>
+            I'm going to show you 6 of these features.
           </aside>
         </section>
 
         <section>
-          <h2>Lorem ipsum dolor</h2>
-          <ul>
-            <li>A thing</li>
-            <li>Another thing</li>
-          </ul>
-
+          <h2>Template Strings</h2>
+          <p>
+            <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
+var pageNumber = "( " + getCount() + " / " + pageTotal + " )";
+            </code></pre>
+          </p>
+          <p>
+            <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
+var pageNumber = `( ${getCount()} / ${pageTotal} )`;
+            </code></pre>
+          </p>
           <aside class="notes" data-markdown>
-            Say something here.
+            If you have ever tried to use stick a variable inside a string in JavaScript, you'll know it requires concatenation.  Look at all those plus signs and quotes.
+
+            With template strings, you can include your variables right inside your string.  Just use backticks and you've made a template string.
+          </aside>
+          <!--
+          <section>
+            <h2>Template Strings</h2>
+            <p>
+              <pre class="fragment javascript" data-fragment-index="1"><code data-trim>
+var poem = [
+  "JavaScript = fun",
+  "Uncaught ReferenceError",
+  "fun is not defined"
+].join("\n");
+
+              </code></pre>
+            </p>
+            <p>
+              <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
+var poem = `JavaScript = fun
+Uncaught ReferenceError
+help is not defined`;
+
+              </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              Template strings also support multi-line strings.
+
+              Previously you may have used string concatenation or the Array `join` method to make multi-line strings.  Now you can just use template strings.
+            </aside>
+          </section>
+          -->
+        </section>
+
+        <section>
+          <h2>Methods</h2>
+            <p>
+              <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
+var Duck = Backbone.Model.extend({
+  name: function name() {
+    return "duck";
+  },
+  sound: function sound() {
+    return "quack";
+  }
+});
+              </code></pre>
+            </p>
+            <p>
+              <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
+var Duck = Backbone.Model.extend({
+  name() {
+    return "duck";
+  },
+  sound() {
+    return "quack";
+  }
+});
+
+              </code></pre>
+            </p>
+          <aside class="notes" data-markdown>
+            You probably write a lot of code that look like this.  Most JavaScript MVC frameworks include an object syntax that uses keys/value pairs for defining methods and attributes.
+
+            With the new method syntax, you can remove a lot of the syntax cruft when defining methods.
           </aside>
         </section>
 
-        <section data-transition="zoom-in slide-out">
-          <h3>Something</h3>
+        <section>
+          <section>
+            <h2>Fat Arrows</h2>
+            <p>
+              <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
+var response = promise.then(function (data) {
+  return data.response;
+});
+              </code></pre>
+            </p>
+            <p>
+              <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
+var response = promise.then(data => data.response);
+              </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              JavaScript is an event-driven language that loves callbacks.  So anonymous functions are very useful in JavaScript.
+
+              With the new fat arrow syntax, you can define anonymous functions much more elegantly.
+
+              In this example, we've lost the parenthesis, the curly braces, the return statement, and the word function.
+            </aside>
+          </section>
+          <section>
+            <h2>Fat Arrows</h2>
+            <p>
+              <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
+var getValue = function () {
+  return this.value;
+}.bind(this));
+              </code></pre>
+            </p>
+            <p>
+            <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
+var getValue = () => this.value;
+              </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              Fat arrow functions also inherit the "this" and "arguments" bindings from their outer scope.
+
+              That means you no longer need those "self" or "that" variables you often see used for storing "this".
+            </aside>
+          </section>
+          <!--
+          <section>
+            <h2>Fat Arrows</h2>
+            <p>
+            <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
+events.sort(function (e1, e2) {
+  var d1 = new Date(e1.startDate);
+  var d2 = new Date(e2.startDate);
+  return d1 - d2;
+});
+              </code></pre>
+            </p>
+            <p>
+              <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
+events.sort((e1, e2) => {
+  var d1 = new Date(e1.startDate);
+  var d2 = new Date(e2.startDate);
+  return d1 - d2;
+});
+              </code></pre>
+            </p>
+          </section>
+          -->
+        </section>
+
+        <section>
+          <h2>Let</h2>
+          <p>
+            <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
+var array = [];
+for (var i = 0; i < 10; i++) {
+array.push(Math.random());
+}
+console.log(i);  // Returns 10
+            </code></pre>
+          </p>
+          <p>
+            <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
+let array = [];
+for (let i = 0; i < 10; i++) {
+array.push(Math.random());
+}
+console.log(i);  // ReferenceError: i is not defined
+            </code></pre>
+          </p>
           <aside class="notes" data-markdown>
-            Something
+            Function hoisting, variable hoisting, function-level scoping.  It's all gone!  Well sort of...
+
+            If you use "let" instead of "var" to define your variables, they'll use block-level scoping and they will not be hoisted.  If you don't know what variable hoisting is, look it up.  It's kind of messy.
+
+            When you start using Babel to transpile your code, the first thing you should do is change all of your code to use "let" instead of "var".
+          </aside>
+        </section>
+
+        <section>
+          <section>
+            <h3>Destructuring Arrays</h3>
+            <p>
+              <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
+var numbers = [1, 4, 2];
+var x = numbers[0];
+var y = numbers[1];
+var z = numbers[2];
+              </code></pre>
+            </p>
+            <p>
+              <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
+let numbers = [1, 4, 2];
+let [x, y, z] = numbers;
+              </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              Combined with the new "for of" syntax, this code is a lot shorter.
+            </aside>
+          </section>
+          <section>
+            <h3>Destructuring Objects</h3>
+            <p>
+              <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
+var object = {name: "Blue", value: 5};
+var color = object.name;
+var value = object.value;
+              </code></pre>
+            </p>
+            <p>
+              <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
+let object = {name: "Blue", value: 5};
+let {name: color, value} = object;
+              </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              Combined with the new "for of" syntax, this code is a lot shorter.
+            </aside>
+          </section>
+          <section>
+            <h3>Destructuring & For..Of</h3>
+            <p>
+              <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
+var coordinates = [{x: 1, y: 4}, {x: 3, y: 3}, {x: 2, y: 2}];
+var timesAtHome = 0;
+
+for (var i = 0; i < coordinates.length; i++) {
+  var c = coordinates[i];
+  if (c.x === 3 && c.y === 3) {
+    timesAtHome += 1;
+  }
+}
+              </code></pre>
+            </p>
+            <p>
+              <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
+let coordinates = [{x: 1, y: 4}, {x: 3, y: 3}, {x: 2, y: 2}];
+let timesAtHome = 0;
+
+for (let {x, y} of coordinates) {
+  if (x === 3 && y === 3) {
+    timesAtHome += 1;
+  }
+}
+              </code></pre>
+            </p>
+            <aside class="notes" data-markdown>
+              Combined with the new "for of" syntax, this code is a lot shorter.
+            </aside>
+          </section>
+        </section>
+
+        <section data-background="#f5da55" data-background-transition="fade" data-transition="zoom-in zoom-out">
+          <h1>Go Forth and Babel</h1>
+          <p>Try it out: <a href="http://babeljs.io/repl/">http://babeljs.io/repl</a></p>
+          <aside class="notes" data-markdown>
+            I am using many of the features I just discussed in my code already.
+
+            After you go home tonight I want you to go to Babel's website and try it out.  Type in some code using the new JavaScript syntax and see what it will convert it to.
           </aside>
         </section>
 
