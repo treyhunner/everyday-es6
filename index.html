@@ -47,7 +47,9 @@
             <small><a href="http://treyhunner.com">Trey Hunner</a> / <a href="https://twitter.com/treyhunner">@treyhunner</a></small>
           </p>
           <aside class="notes" data-markdown>
-            My name is Trey.  I'm going to show you something.
+            My name is Trey.  I am a web consultant, open source advocate, and I also teach front-end web development.
+
+            Today I'm going to tell you about some new JavaScript features you can use to make your code much more readable.
           </aside>
         </section>
 
@@ -61,13 +63,15 @@
             </ul>
           </p>
           <aside class="notes" data-markdown>
-            ECMAScript is the official name of the JavaScript language specification.  ECMAScript 5 was finalized 5 years ago.  As of this year, ES6 is now officially called ECMAScript 2015.
+            ECMAScript is the official name of the JavaScript language specification.  ECMAScript 5 was finalized 5 years ago and is entirely supported in all modern browsers.
 
-            The hope is that ECMAScript 7 will be finalized in 2016.
+            The next version, ECMAScript 6 has been a long time coming, but it was finally released last month.
+
+            Earlier this year, ES6 was renamed to ECMAScript 2015.  What was called ECMAScript 7 will most likely be called ECMAScript 2016.  So hopefully, we won't need to wait another 5 years for more features.  During this talk I will be using the terms ECMAScript 2015 and ECMAScript 6 interchangeably.
 
             This new language specification was just finalized last month but it is already fully supported in all major browsers.
 
-            Oh wait, no.  I mean it's not supported in **any** browsers.  It's going to be a long time before you can confidently use this new language in the browser.  However you **can** start using this new language today...
+            Oh wait, no.  I mean it's not supported in **any** browsers.  It's going to be a long time before you can confidently use this new language in the browser.  Bummer.
           </aside>
         </section>
 
@@ -75,24 +79,26 @@
           <a href="http://babeljs.io/"><img src="babel-logo.svg" class="no-style"></a>
           <h3>Use next generation JavaScript, today.</h3>
           <aside class="notes" data-markdown>
-            You just need to compile your new ECMAScript 6 code down to ECMAScript 5.  That way your code will run in all web browsers.  With Babel you can do just that.
+            But wait! You **can** start using this new language today!  You just need to transpile your code with Babel.
+
+            Babel allows you to compile your ECMAScript 6 code down to ECMAScript 5, which is understood by all modern web browsers.  This JavaScript-to-JavaScript compilation is known as trans-piling.
+
+            So with Babel you can start using the cool new features in ECMAScript 6 today.  But which features should you use?
           </aside>
         </section>
 
         <section data-transition="fade-in slide-out">
           <h2>ES2015 features to use today</h2>
-          <p>
-            <ol>
-              <li>template strings</li>
-              <li>object methods</li>
-              <li>fat arrow functions</li>
-              <li>let declarations</li>
-              <li>for..of</li>
-              <li>destructuring</li>
+          <ol>
+            <li>template strings</li>
+            <li>object methods</li>
+            <li>fat arrow functions</li>
+            <li>let declarations</li>
+            <li>for..of</li>
+            <li>destructuring</li>
           </ol>
-          </p>
           <aside class="notes" data-markdown>
-            I'm going to show you 6 of these features.
+            There are a lot of cool features in ES6, but I'm going to talk about just 6 of them today.
           </aside>
         </section>
 
@@ -109,7 +115,7 @@ var pageNumber = `( ${getCount()} / ${pageTotal} )`;
             </code></pre>
           </p>
           <aside class="notes" data-markdown>
-            If you have ever tried to use stick a variable inside a string in JavaScript, you'll know it requires concatenation.  Look at all those plus signs and quotes.
+            If you have ever tried to stick a variable inside a string in JavaScript, you'll know it requires concatenation.  Look at all those plus signs and quotes.
 
             With template strings, you can include your variables right inside your string.  Just use backticks and you've made a template string.
           </aside>
@@ -171,9 +177,11 @@ var Duck = Backbone.Model.extend({
               </code></pre>
             </p>
           <aside class="notes" data-markdown>
-            You probably write a lot of code that look like this.  Most JavaScript MVC frameworks include an object syntax that uses keys/value pairs for defining methods and attributes.
+            If you ever make custom objects in JavaScript, you probably write a lot of code that looks like this.  Most JavaScript MVC frameworks include an object syntax that uses key/value pairs for defining methods and attributes.
 
             With the new method syntax, you can remove a lot of the syntax cruft when defining methods.
+
+            Notice the lack of the word function.  Also note that the functions in these examples are named.
           </aside>
         </section>
 
@@ -182,28 +190,34 @@ var Duck = Backbone.Model.extend({
             <h2>Fat Arrows</h2>
             <p>
               <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
-var response = promise.then(function (data) {
+promise.then(function (data) {
   return data.response;
-});
+}).display();
               </code></pre>
             </p>
             <p>
               <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
-var response = promise.then(data => data.response);
+promise.then(data => data.response).display();
               </code></pre>
             </p>
             <aside class="notes" data-markdown>
-              JavaScript is an event-driven language that loves callbacks.  So anonymous functions are very useful in JavaScript.
+              JavaScript is an event-driven language that loves callback functions.  So one-off anonymous functions are very useful in JavaScript.
 
               With the new fat arrow syntax, you can define anonymous functions much more elegantly.
 
-              In this example, we've lost the parenthesis, the curly braces, the return statement, and the word function.
+              In this example, we've lost the parenthesis, the curly braces, the return statement, and the word function.  This is much shorter.
             </aside>
           </section>
           <section>
             <h2>Fat Arrows</h2>
             <p>
-              <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
+              <pre data-fragment-index="1" class="javascript fragment fade-out display-fragment"><code data-trim>
+var self = this;
+var getValue = function () {
+  return self.value;
+});
+              </code></pre>
+              <pre data-fragment-index="1" class="javascript fragment fade-in display-fragment"><code data-trim>
 var getValue = function () {
   return this.value;
 }.bind(this));
@@ -215,9 +229,13 @@ var getValue = () => this.value;
               </code></pre>
             </p>
             <aside class="notes" data-markdown>
-              Fat arrow functions also inherit the "this" and "arguments" bindings from their outer scope.
+              Have you ever seen code with "self" variables or "that" variables that are used to store "this"?
 
-              That means you no longer need those "self" or "that" variables you often see used for storing "this".
+              Slight Aside: You shouldn't be using "self" or "that".  The "bind" function was introduced in ECMAScript 5 and it's a bit more idiomatic.
+
+              Anyway, fat arrow functions can replace both of these use cases because they inherit the "this" and "arguments" bindings from their outer scope.
+
+              The syntax looks a little funny, but again, this is much shorter than the old way.
             </aside>
           </section>
           <!--
@@ -266,11 +284,13 @@ console.log(i);  // ReferenceError: i is not defined
             </code></pre>
           </p>
           <aside class="notes" data-markdown>
-            Function hoisting, variable hoisting, function-level scoping.  It's all gone!  Well sort of...
+            Function hoisting! Variable hoisting! Function-level scoping!  All of these JavaScript idiosyncrasies are now **gone** in ECMAScript 6!  Well sort of...
 
-            If you use "let" instead of "var" to define your variables, they'll use block-level scoping and they will not be hoisted.  If you don't know what variable hoisting is, look it up.  It's kind of messy.
+            In ECMAScript 6 you can use "let" instead of "var" to define your variables. When you do this they'll use block-level scoping and they will not be hoisted to the top of your function.  If you do not know what variable hoisting means, look it up.  It's one of the bad parts of JavaScript.
 
             When you start using Babel to transpile your code, the first thing you should do is change all of your code to use "let" instead of "var".
+
+            Here's an example of block-scoping with "let".  Notice that "var" leaks variables everywhere because "var" makes variables function-scoped.
           </aside>
         </section>
 
@@ -279,7 +299,7 @@ console.log(i);  // ReferenceError: i is not defined
             <h3>Destructuring Arrays</h3>
             <p>
               <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
-var numbers = [1, 4, 2];
+var numbers = [1, 4, 2, 3];
 var x = numbers[0];
 var y = numbers[1];
 var z = numbers[2];
@@ -287,31 +307,42 @@ var z = numbers[2];
             </p>
             <p>
               <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
-let numbers = [1, 4, 2];
+let numbers = [1, 4, 2, 3];
 let [x, y, z] = numbers;
               </code></pre>
             </p>
             <aside class="notes" data-markdown>
-              Combined with the new "for of" syntax, this code is a lot shorter.
+              If you want to grab a sequence of elements out of an array in JavaScript, you need to write a lot of assignment statements.
+
+              With array destructuring syntax, you can now assign multiple variables to a sequence at once.
+
+              This new syntax can result in code that is much easier to read and much more maintainable.
             </aside>
           </section>
           <section>
             <h3>Destructuring Objects</h3>
             <p>
               <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
-var object = {name: "Blue", value: 5};
-var color = object.name;
-var value = object.value;
+var emoji = {category: "people", char: "😁", name: "smile"};
+var character = emoji.char;
+var name = emoji.name;
+var category = emoji.category;
               </code></pre>
             </p>
             <p>
               <pre data-fragment-index="2" class="javascript fragment"><code data-trim>
-let object = {name: "Blue", value: 5};
-let {name: color, value} = object;
+let emoji = {category: "people", char: "😁", name: "smile"};
+let {name, category, char: character} = emoji;
               </code></pre>
             </p>
             <aside class="notes" data-markdown>
-              Combined with the new "for of" syntax, this code is a lot shorter.
+              We have the same code duplication problem with Object destructing as we have with Array destructuring.
+
+              The new object destructuring syntax allows us to assign multiple variables to the values of multiple attributes on an object.
+
+              If the variable name is different than the object attribute, you need to use a colon to separate the attribute name from the variable name.  This is what we're doing for the "character" attribute and "char" variable in this example.
+
+              If the variable name is the same as the object attribute, you just need to list the name.  This is what we're doing for "name" and "category" in the example.
             </aside>
           </section>
           <section>
@@ -320,9 +351,10 @@ let {name: color, value} = object;
               <pre data-fragment-index="1" class="javascript fragment"><code data-trim>
 var coordinates = [{x: 1, y: 4}, {x: 3, y: 3}, {x: 2, y: 2}];
 var timesAtHome = 0;
+var c;
 
 for (var i = 0; i < coordinates.length; i++) {
-  var c = coordinates[i];
+  c = coordinates[i];
   if (c.x === 3 && c.y === 3) {
     timesAtHome += 1;
   }
@@ -342,7 +374,11 @@ for (let {x, y} of coordinates) {
               </code></pre>
             </p>
             <aside class="notes" data-markdown>
-              Combined with the new "for of" syntax, this code is a lot shorter.
+              Let's loop through an array of coordinates and count the number of times we visit our home base.  We'll use a variable ``i`` as a counter, starting it at 0, and incrementing it after each loop.  We'll end the looping when ``i`` equals the length of the array.  Each time we loop, we'll assign ``c`` to the ``i``th element of our array.  When ``c.x`` and ``c.y`` are both 3 then we'll increment ``timesAtHome``.
+
+              Let's loop through an array of coordinates and count the number of times we visit our home base.  We'll loop over each element of the array, getting the ``x`` and ``y`` attributes from it.  When ``x`` and ``y`` are both 3 we'll increment ``timesAtHome``.
+
+              This new "for of" syntax, combined with object destructuring, makes our code much shorter.
             </aside>
           </section>
         </section>
@@ -350,15 +386,23 @@ for (let {x, y} of coordinates) {
         <section data-background="#f5da55" data-background-transition="fade" data-transition="zoom-in zoom-out">
           <h1>Go Forth and Babel</h1>
           <p>Try it out: <a href="http://babeljs.io/repl/">http://babeljs.io/repl</a></p>
+          <p><a href="http://trey.in/everyday-es6-code">http://trey.in/everyday-es6-code</a></p>
           <aside class="notes" data-markdown>
-            I am using many of the features I just discussed in my code already.
+            Okay.  I have a mission for you now.
 
-            After you go home tonight I want you to go to Babel's website and try it out.  Type in some code using the new JavaScript syntax and see what it will convert it to.
+            After you go home tonight I want you all to go to Babel website and try it out.  Type in some code using the new JavaScript syntax and see what it will convert it to.  If you don't have time tonight, try it out this weekend.
+
+            If you want to see how Babel transpiles the ES6 code examples I used in this talk, you can go to trey.in/evereyday-es6-code.
+
+            I will be posting that link and a link to my slides on the meetup event so you don't need to write that down.
           </aside>
         </section>
 
         <section style="text-align: left;" data-background="#663399" data-background-transition="slide" data-transition="slide">
           <h1>Final</h1>
+          <p>
+          <small><a href="http://trey.in/everyday-es6-code">http://trey.in/everyday-es6-code</a></small>
+          </p>
           <p>
             <small><a href="http://treyhunner.com">Trey Hunner</a> / <a href="https://twitter.com/treyhunner">@treyhunner</a></small>
           </p>
