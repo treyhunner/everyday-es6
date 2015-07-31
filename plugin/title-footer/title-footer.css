@@ -76,4 +76,6 @@ footer:last-of-type#title-footer
 	transition: opacity 800ms ease-in-out;
 }
 
-
+#title-footer p {
+	margin: initial;
+}
