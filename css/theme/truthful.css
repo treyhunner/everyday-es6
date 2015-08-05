@@ -302,3 +302,27 @@ section.has-dark-background a:hover {
   margin: 0;
   padding: 0;
 }
+
+
+
+/* ES Talk Customizations */
+pre.es5 code {
+  box-sizing: border-box;
+  background-image: url('../../js-logo.svg');
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: contain;
+  background-size: 50px auto;
+  min-height: 70px;
+}
+
+pre.es6 code {
+  box-sizing: border-box;
+  background-image: url('../../babel-logo.svg');
+  background-repeat: no-repeat;
+  background-position: right 15px;
+  background-size: contain;
+  background-size: 60px auto;
+  min-height: 70px;
+}
+
